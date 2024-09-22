@@ -1,0 +1,25 @@
+services:
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    networks:
+      macvlan_network:
+        ipv4_address: 192.168.0.88
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '512M'
+        reservations:
+          cpus: '0.25'
+          memory: '256M'
+
+networks:
+  macvlan_network:
+    driver: macvlan
+    driver_opts:
+      parent: enp0s1
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
+          gateway: 192.168.0.1
